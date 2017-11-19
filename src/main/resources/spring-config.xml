@@ -23,6 +23,12 @@
         <property name="initialSize">
             <value>${initialSize}</value>
         </property>
+        <!--<property name="defaultReadOnly">-->
+            <!--<value></value>-->
+        <!--</property>-->
+        <property name="cacheState">
+            <value>true</value>
+        </property>
         <!-- 连接池中可同时连接的最大的连接数（默认值为8) -->
         <property name="maxTotal">
             <value>${mysql.connectionPool.maxActive}</value>
