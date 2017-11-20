@@ -7,7 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
 
-public class DBCPTest {
+
+/**
+ * 效率对比
+*@author 许效银
+*@date 11/20/2017 1:34 PM
+*/
+public class DBCPEfficiencyTest {
 
     /**
      * 不用连接池：每写一条数据前,就新建一个连接

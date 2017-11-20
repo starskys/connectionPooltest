@@ -16,7 +16,7 @@ public class DBCPUtil {
     //加载DBCP配置文件
     static{
         try{
-            FileInputStream is = new FileInputStream("D:\\dbpool\\src\\main\\resources\\config.properties");
+            FileInputStream is = new FileInputStream("E:\\work\\connectionPooltest\\src\\main\\resources\\config.properties");
             properties.load(is);
         }catch(IOException e){
             e.printStackTrace();
@@ -43,6 +43,14 @@ public class DBCPUtil {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public static Properties getProperties() {
+        return properties;
+    }
+
+    public static DataSource getDataSource() {
+        return dataSource;
     }
 
     public static void main(String[] args) {
