@@ -18,7 +18,7 @@
             <value>root</value>
         </property>
         <property name="password">
-            <value>CentOs|xuxiaoyin123</value>
+            <value>123456</value>
         </property>
         <!--  连接池启动时创建的初始化连接数量（不设定即为0）-->
         <property name="initialSize">
@@ -66,6 +66,12 @@
         </property>
         <property name="removeAbandonedTimeout">
             <value>${removeAbandonedTimeout}</value>
+        </property>
+        <property name="testOnBorrow">
+            <value>${testOnBorrow}</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>${testWhileIdle}</value>
         </property>
         <!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常 -->
         <!--<property name="maxWaitMillis">-->

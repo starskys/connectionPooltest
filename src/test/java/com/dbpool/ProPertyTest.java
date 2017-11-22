@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -90,7 +91,9 @@ public class ProPertyTest {
 
 
     /**
-     *
+     * 防止数据库连接池泄露 测试
+     * @throws SQLException
+     * @throws InterruptedException
      */
     @Test
     public void depratchedTest() throws SQLException, InterruptedException {
@@ -105,6 +108,38 @@ public class ProPertyTest {
         //15s后再来查看池状态
         System.out.println("activeNumber:"+dataSource.getNumActive());
         System.out.println("idleNumber:"+dataSource.getNumIdle());
+    }
+
+
+    /**
+     * 测试Mysql 8小时问题
+     * 需要关闭dbcp的维护功能(即将timeBetweenEvictionRunsMillis设置为一个负数或者做生意一个大于Mysql timeout
+     * 的时间)
+     * 查看mysql 的timeout:show global variables like '%timeout%'
+     * 设置mysql 的timeout:set global wait_timeout=20 (单位是秒默认8h)
+     *
+     * 解决方案：
+     *
+     * @throws SQLException
+     * @throws InterruptedException
+     */
+    @Test
+    public void mysqlTimeOutTest() throws SQLException, InterruptedException {
+        //设置mysql timeout时间为20秒
+        Connection connection = dataSource.getConnection();
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+        connection.close();
+        TimeUnit.SECONDS.sleep(30);
+        //查看池状态
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+         connection = dataSource.getConnection();
+        Statement statement = connection.createStatement();
+        //随便取一个连接来测试
+        statement.execute("SELECT '*' FROM DUAL");
+        statement.close();
+        connection.close();
     }
 
 
