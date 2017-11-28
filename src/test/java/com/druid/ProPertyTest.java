@@ -49,9 +49,7 @@ public class ProPertyTest {
         TimeUnit.MILLISECONDS.sleep(500);
         System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
         System.out.println("当前连接数量:"+dataSource.getPoolingCount());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
-
+        System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
         //基本测试？秒后空闲连接是否会被删除
         TimeUnit.SECONDS.sleep(10);
         //15s后再来查看池状态

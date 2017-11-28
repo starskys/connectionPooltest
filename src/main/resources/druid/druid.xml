@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-   <context:property-placeholder location="classpath:druid/druid.properties"></context:property-placeholder>
+   <context:property-placeholder location="classpath:druid/druid.properties"/>
         <!-- 阿里 druid 数据库连接池 -->
     <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
         <!-- 数据库基本信息配置 -->
         <property name = "url" value = "${url}"/>
         <property name = "username" value = "root"/>
-        <property name = "password" value = "CentOs|xuxiaoyin123"/>
+        <property name = "password" value = "123456"/>
         <property name = "driverClassName" value = "${driverClassName}"/>
         <property name = "filters" value = "${filters}"/>
         <!-- 最大并发连接数 -->
