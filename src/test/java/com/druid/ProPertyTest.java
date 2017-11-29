@@ -1,7 +1,6 @@
 package com.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -43,19 +41,42 @@ public class ProPertyTest {
      * @throws InterruptedException
      */
     @Test
-    public void maxIdleTimeTest() throws SQLException, InterruptedException {
-        Connection connection = dataSource.getConnection();
-        connection.close();
-        TimeUnit.MILLISECONDS.sleep(500);
+    public void minEvictableIdleTimeMillisTest() throws SQLException, InterruptedException {
         System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
-        System.out.println("当前连接数量:"+dataSource.getPoolingCount());
+        for(int i=0;i<10;i++){
+            Connection connection = dataSource.getConnection();
+            connection.close();
+        }
         System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
-        //基本测试？秒后空闲连接是否会被删除
+        System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+//        //基本测试？秒后空闲连接是否会被删除
         TimeUnit.SECONDS.sleep(10);
         //15s后再来查看池状态
-        System.out.println("当前连接数量:"+dataSource.getNumConnections());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
+        System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
+        System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+    }
+
+    @Test
+    public void removeAbandonedTest() throws SQLException, InterruptedException {
+        try {
+            for(int i=0;i<10;i++){
+                Connection connection = dataSource.getConnection();
+            }
+            System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
+            System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+//        //基本测试？秒后空闲连接是否会被删除
+            try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //15s后再来查看池状态
+            Connection connection = dataSource.getConnection();
+            System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
+            System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+            System.out.println("done");
+        } catch (Exception e) {
+        }
     }
 
 
@@ -72,29 +93,29 @@ public class ProPertyTest {
      */
     @Test
     public void maxIdleTimeTestB() throws SQLException, InterruptedException {
-        //初始化
-        Connection connection = dataSource.getConnection();
-        connection.close();
-        //等待关闭连接
-        TimeUnit.MILLISECONDS.sleep(500);
-        System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
-        System.out.println("当前连接数量:"+dataSource.getNumConnections());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
-
-        //未超过MaxIdleTime，此时关闭mysql
-        TimeUnit.SECONDS.sleep(40);
-        // 查看池状态
-        System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
-        System.out.println("当前连接数量:"+dataSource.getNumConnections());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
-        //关闭mysql后取出一个空闲连接测试
-        connection = dataSource.getConnection();
-        Statement statement = connection.createStatement();
-        statement.execute("SELECT 1 FROM DUAL ");
-        statement.close();
-        connection.close();
+//        //初始化
+//        Connection connection = dataSource.getConnection();
+//        connection.close();
+//        //等待关闭连接
+//        TimeUnit.MILLISECONDS.sleep(500);
+//        System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
+//        System.out.println("当前连接数量:"+dataSource.getNumConnections());
+//        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
+//        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
+//
+//        //未超过MaxIdleTime，此时关闭mysql
+//        TimeUnit.SECONDS.sleep(40);
+//        // 查看池状态
+//        System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
+//        System.out.println("当前连接数量:"+dataSource.getNumConnections());
+//        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
+//        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
+//        //关闭mysql后取出一个空闲连接测试
+//        connection = dataSource.getConnection();
+//        Statement statement = connection.createStatement();
+//        statement.execute("SELECT 1 FROM DUAL ");
+//        statement.close();
+//        connection.close();
     }
 
 
@@ -108,24 +129,24 @@ public class ProPertyTest {
      */
     @Test
     public void idleConnectionTestPeriodTest() throws SQLException, InterruptedException {
-        Connection connection = dataSource.getConnection();
-        connection.close();
-        //测试发现，连接关闭的速度有点慢，调用关闭命令后立即查看活动连接发现该连接还没有关闭
-        //所以这里暂停一下
-        TimeUnit.SECONDS.sleep(5);
-        System.out.println("当前连接数量:"+dataSource.getNumConnections());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
-        TimeUnit.SECONDS.sleep(20);
-        connection = dataSource.getConnection();
-        Statement statement = connection.createStatement();
-        statement.execute("SELECT  '*' FROM DUAL");
-        statement.close();
-        connection.close();
-        TimeUnit.SECONDS.sleep(5);
-        System.out.println("当前连接数量:"+dataSource.getNumConnections());
-        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
-        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
+//        Connection connection = dataSource.getConnection();
+//        connection.close();
+//        //测试发现，连接关闭的速度有点慢，调用关闭命令后立即查看活动连接发现该连接还没有关闭
+//        //所以这里暂停一下
+//        TimeUnit.SECONDS.sleep(5);
+//        System.out.println("当前连接数量:"+dataSource.getNumConnections());
+//        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
+//        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
+//        TimeUnit.SECONDS.sleep(20);
+//        connection = dataSource.getConnection();
+//        Statement statement = connection.createStatement();
+//        statement.execute("SELECT  '*' FROM DUAL");
+//        statement.close();
+//        connection.close();
+//        TimeUnit.SECONDS.sleep(5);
+//        System.out.println("当前连接数量:"+dataSource.getNumConnections());
+//        System.out.println("当前活动连接数量:"+dataSource.getNumBusyConnections());
+//        System.out.println("当前空闲连接数量:"+dataSource.getNumIdleConnections());
 
     }
 
