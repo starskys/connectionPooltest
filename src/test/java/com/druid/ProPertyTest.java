@@ -36,48 +36,51 @@ public class ProPertyTest {
 
 
     /**
-     * 空闲连接的最大空闲时间,?秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0
-            * @throws SQLException
+     * 空闲连接的最大空闲时间,?秒内未使用则连接被丢弃
+     * 注：此属性生效的的前提是同时开启了
+     * 1.timeBetweenEvictionRunsMillis
+     * 2.testWhileIdle？？？测试发现，即使这个属性为false空闲连接同样也会被关闭
+     * @throws SQLException
      * @throws InterruptedException
      */
     @Test
     public void minEvictableIdleTimeMillisTest() throws SQLException, InterruptedException {
         System.out.println("当前时间:"+DateFormatUtils.format(new Date(),"HH:mm:ss"));
-        for(int i=0;i<10;i++){
-            Connection connection = dataSource.getConnection();
-            connection.close();
-        }
+        Connection connection = dataSource.getConnection();
+        connection.close();
+        TimeUnit.MILLISECONDS.sleep(500);
         System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
         System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
 //        //基本测试？秒后空闲连接是否会被删除
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.SECONDS.sleep(15);
         //15s后再来查看池状态
         System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
         System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
     }
 
+    /**
+     * removeAbandoned生效需要开启 eviction 功能，
+     * 设置removeAbandoned属性为true
+     * 生效后对于未长时间关闭的连接连接池会在超过removeAbandonedTimeout设置的时间后
+     * 置为空闲连接，若开启了logAbandoned属性会在关闭连接时抛出异常信息
+     * @throws SQLException
+     * @throws InterruptedException
+     */
     @Test
     public void removeAbandonedTest() throws SQLException, InterruptedException {
-        try {
             for(int i=0;i<10;i++){
                 Connection connection = dataSource.getConnection();
             }
             System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
             System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
 //        //基本测试？秒后空闲连接是否会被删除
-            try {
-                TimeUnit.SECONDS.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //15s后再来查看池状态
-            Connection connection = dataSource.getConnection();
+            TimeUnit.SECONDS.sleep(15);
+            //?s后再来查看池状态
             System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
             System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
             System.out.println("done");
-        } catch (Exception e) {
-        }
     }
+
 
 
     /**
