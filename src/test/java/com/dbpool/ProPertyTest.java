@@ -67,6 +67,26 @@ public class ProPertyTest {
         System.out.println("activeNumber:"+dataSource.getNumActive());
         System.out.println("idleNumber:"+dataSource.getNumIdle());
     }
+    @Test
+    public void minIdleTest() throws SQLException, InterruptedException {
+        Connection connection = dataSource.getConnection();
+        connection.close();
+        TimeUnit.MILLISECONDS.sleep(500);
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+        TimeUnit.SECONDS.sleep(25);
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+        //最后这个空闲连接是否还是可用的？
+        connection=dataSource.getConnection();
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+        Statement statement = connection.createStatement();
+        statement.execute("SELECT 1 FROM DUAL");
+        statement.close();
+        connection.close();
+        System.out.println("done");
+    }
 
     /**
      * 空闲连接回收测试：

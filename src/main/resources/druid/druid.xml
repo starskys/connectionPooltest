@@ -30,6 +30,7 @@
         <property name = "testOnReturn" value = "${testOnReturn}"/>
         <!-- 打开 removeAbandoned 功能 -->
         <property name = "removeAbandoned" value = "${removeAbandoned}"/>
+        <property name="keepAlive" value="${keepAlive}"/>
         <!-- 1800 秒，也就是 30 分钟 -->
         <property name = "removeAbandonedTimeout" value ="${removeAbandonedTimeout}"/>
         <!-- 关闭 abanded 连接时输出错误日志 -->

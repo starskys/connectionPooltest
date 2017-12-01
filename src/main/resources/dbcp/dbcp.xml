@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-   <context:property-placeholder location="classpath:dbcp/dbcp.properties"></context:property-placeholder>
+    <context:property-placeholder location="classpath:dbcp/dbcp.properties"/>
     <bean id="dsMysql"
           class="org.apache.commons.dbcp2.BasicDataSource"
           destroy-method="close">
@@ -17,7 +17,7 @@
             <value>root</value>
         </property>
         <property name="password">
-            <value>CentOs|xuxiaoyin123</value>
+            <value>123456</value>
         </property>
         <!--  连接池启动时创建的初始化连接数量（不设定即为0）-->
         <property name="initialSize">
@@ -72,9 +72,9 @@
         <property name="testWhileIdle">
             <value>${testWhileIdle}</value>
         </property>
-        <property name="softMinEvictableIdleTimeMillis">
-            <value>${softMinEvictableIdleTimeMillis}</value>
-        </property>
+        <!--<property name="softMinEvictableIdleTimeMillis">-->
+            <!--<value>${softMinEvictableIdleTimeMillis}</value>-->
+        <!--</property>-->
         <!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常 -->
         <!--<property name="maxWaitMillis">-->
             <!--<value>${maxWait}</value>-->
