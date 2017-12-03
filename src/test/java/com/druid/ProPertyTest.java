@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -82,6 +83,24 @@ public class ProPertyTest {
     }
 
 
+    @Test
+    public void testWhileIdleTest() throws SQLException, InterruptedException {
+        Connection connection = dataSource.getConnection();
+        connection.close();
+        TimeUnit.MILLISECONDS.sleep(500);
+        System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
+        System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+        TimeUnit.SECONDS.sleep(20);
+        System.out.println("当前活动连接数量:"+dataSource.getActiveCount());
+        System.out.println("当前空闲连接数量:"+dataSource.getPoolingCount());
+        //最后这个空闲连接是否还是可用的？
+        connection = dataSource.getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("SELECT 1 FROM DUAL");
+        statement.close();
+        connection.close();
+        System.out.println("done");
+    }
 
     /**
      * 测试maxIdleTime的局限性：

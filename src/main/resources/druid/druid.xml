@@ -9,7 +9,7 @@
         <!-- 数据库基本信息配置 -->
         <property name = "url" value = "${url}"/>
         <property name = "username" value = "root"/>
-        <property name = "password" value = "123456"/>
+        <property name = "password" value = "CentOs|xuxiaoyin123"/>
         <property name = "driverClassName" value = "${driverClassName}"/>
         <property name = "filters" value = "${filters}"/>
         <!-- 最大并发连接数 -->
