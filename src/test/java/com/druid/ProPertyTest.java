@@ -1,6 +1,7 @@
 package com.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidPooledConnection;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,6 +102,8 @@ public class ProPertyTest {
         connection.close();
         System.out.println("done");
     }
+
+
 
     /**
      * 测试maxIdleTime的局限性：
