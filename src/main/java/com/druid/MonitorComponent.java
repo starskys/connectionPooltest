@@ -3,6 +3,7 @@ package com.druid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author starSky
@@ -15,6 +16,17 @@ public class MonitorComponent {
 
     @Scheduled(cron="0/1 * * * * ? ")
     public void monitorJob(){
+        try {
+            monitorDao.monitor(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Scheduled(cron="0/2 * * * * ? ")
+    @Transactional
+    public void monitorTxJob(){
         try {
             monitorDao.monitor(null);
         } catch (Exception e) {

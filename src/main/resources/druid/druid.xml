@@ -9,9 +9,8 @@
         <!-- 数据库基本信息配置 -->
         <property name = "url" value = "${url}"/>
         <property name = "username" value = "root"/>
-        <property name = "password" value = "CentOs|xuxiaoyin123"/>
+        <property name = "password" value = "VDPs98s9DF1Th1k5mC2eqxSQIV0CPAEGjeJbfLbsmbyK67RKKrVHZznOfuiZzYYRJiWbw4NJ9L3J53T37RpQ0g=="/>
         <property name = "driverClassName" value = "${driverClassName}"/>
-        <property name = "filters" value = "${filters}"/>
         <!-- 最大并发连接数 -->
         <property name = "maxActive" value = "${maxActive}"/>
         <!-- 初始化连接数量 -->
@@ -35,6 +34,9 @@
         <property name = "removeAbandonedTimeout" value ="${removeAbandonedTimeout}"/>
         <!-- 关闭 abanded 连接时输出错误日志 -->
         <property name = "logAbandoned" value = "${logAbandoned}"/>
+        <!--加密处理-->
+        <property name = "filters" value = "${filters}"/>
+        <property name="connectionProperties" value="config.decrypt=true;config.decrypt.key=${publickey}" />
     </bean>
 
     <!-- 基于JDBC的事务管理器 -->
