@@ -57,13 +57,15 @@ public class ProPertyTest {
      */
     @Test
     public void propertyTestify() throws InterruptedException, SQLException, ExecutionException {
-        for(int i=0;i<4;i++){
-            Connection connection = DBCPUtil.getConnection();
-            work(connection,i,10L);
+        for(int i=0;i<10;i++){
+            System.out.println("第"+i+"获取"+System.currentTimeMillis());
+            Connection connection = dataSource.getConnection();
+            TimeUnit.SECONDS.sleep(10);
+//            work(connection,i,40L);
         }
         System.out.println("activeNumber:"+dataSource.getNumActive());
         System.out.println("idleNumber:"+dataSource.getNumIdle());
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(50);
         System.out.println("activeNumber:"+dataSource.getNumActive());
         System.out.println("idleNumber:"+dataSource.getNumIdle());
     }

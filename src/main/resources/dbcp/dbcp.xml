@@ -75,10 +75,10 @@
         <!--<property name="softMinEvictableIdleTimeMillis">-->
             <!--<value>${softMinEvictableIdleTimeMillis}</value>-->
         <!--</property>-->
-        <!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常 -->
-        <!--<property name="maxWaitMillis">-->
-            <!--<value>${maxWait}</value>-->
-        <!--</property>-->
+        <!-- ？最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常 -->
+        <property name="maxWaitMillis">
+            <value>${maxWaitMillis}</value>
+        </property>
         <property name="validationQuery">
             <value>${validationQuery} </value>
         </property>

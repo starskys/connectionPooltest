@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author starSky
  * @date 12/5/2017 7:37 PM.
  */
-@Component
+//@Component
 public class MonitorComponent {
     @Autowired
     private MonitorDao monitorDao;
