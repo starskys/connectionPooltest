@@ -194,6 +194,9 @@ public class ProPertyTest {
     }
 
 
+
+
+
     /**
      * 测试Mysql 8小时问题
      * 需要关闭dbcp的维护功能(即将timeBetweenEvictionRunsMillis设置为一个负数或者做生意一个大于Mysql timeout

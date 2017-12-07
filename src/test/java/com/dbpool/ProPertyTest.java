@@ -42,6 +42,20 @@ public class ProPertyTest {
         dataSource.getMinIdle();
     }
 
+    @Test
+    public void maxWaitMillisTest() throws SQLException, InterruptedException {
+        for(int i=0;i<50;i++){
+            Connection connection = dataSource.getConnection();
+            System.out.println("activeNumber:"+dataSource.getNumActive());
+            System.out.println("idleNumber:"+dataSource.getNumIdle());
+            TimeUnit.SECONDS.sleep(10);
+        }
+        System.out.println("activeNumber:"+dataSource.getNumActive());
+        System.out.println("idleNumber:"+dataSource.getNumIdle());
+
+    }
+
+
 
     /**
      * minIdle测试 ：
@@ -57,10 +71,11 @@ public class ProPertyTest {
      */
     @Test
     public void propertyTestify() throws InterruptedException, SQLException, ExecutionException {
-        for(int i=0;i<10;i++){
+        for(int i=0;i<10000;i++){
             System.out.println("第"+i+"获取"+System.currentTimeMillis());
             Connection connection = dataSource.getConnection();
-            TimeUnit.SECONDS.sleep(10);
+            Statement statement = connection.createStatement();
+//            connection.close();
 //            work(connection,i,40L);
         }
         System.out.println("activeNumber:"+dataSource.getNumActive());
@@ -114,6 +129,11 @@ public class ProPertyTest {
 
     /**
      * 防止数据库连接池泄露 测试
+     * 开启：
+     * 1.timeBetweenEvictionRunsMillis
+     * 2.removeAbandonedOnMaintenance=true
+     * 3.removeAbandonedOnBorrow=true
+     * 4.removeAbandonedTimeout=?
      * @throws SQLException
      * @throws InterruptedException
      */
