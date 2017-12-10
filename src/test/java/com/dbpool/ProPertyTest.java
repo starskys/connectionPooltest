@@ -72,10 +72,8 @@ public class ProPertyTest {
     @Test
     public void propertyTestify() throws InterruptedException, SQLException, ExecutionException {
         for(int i=0;i<10000;i++){
-            System.out.println("第"+i+"获取"+System.currentTimeMillis());
             Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();
-//            connection.close();
 //            work(connection,i,40L);
         }
         System.out.println("activeNumber:"+dataSource.getNumActive());

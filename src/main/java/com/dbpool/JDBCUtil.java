@@ -9,9 +9,12 @@ public class JDBCUtil {
     //获取一个数据库连接
     public static Connection getConnection() {
         try {
+            //1.加载驱动
             Class.forName("com.mysql.jdbc.Driver");
+            //2.注册驱动
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            String dbUrl = "jdbc:mysql://127.0.0.1:3306/xudatabase";
+            //3.获取连接
+            String dbUrl = "jdbc:mysql://127.0.0.1:3306/test";
             conn = DriverManager.getConnection(dbUrl, "root", "123456");
             System.out.println("========数据库连接成功========");
         } catch (Exception e) {

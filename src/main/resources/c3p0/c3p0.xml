@@ -9,7 +9,7 @@
         <property name="jdbcUrl" value="${url}" />
         <property name="driverClass" value="${driverClassName}" />
         <property name="user" value="root" />
-        <property name="password" value="CentOs|xuxiaoyin123" />
+        <property name="password" value="123456" />
         <!--连接池中保留的最大连接数。Default: 15 -->
         <property name="maxPoolSize" value="${maxPoolSize}" />
         <!--连接池中保留的最小连接数。-->

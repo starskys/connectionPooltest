@@ -86,9 +86,14 @@ public class DBCPEfficiencyTest {
 
 
     //不使用连接池写数据库,每写一条数据创建一个连接
+
+    /**
+     * 操作数据库
+     * @param data
+     */
     public void writeDBByEveryConnNoPool(int data){
-        String sql = "insert into n2 (age) values (" + data + ")";
         Connection conn = JDBCUtil.getConnection();
+        String sql = "insert into n2 (age) values (" + data + ")";
         try{
             Statement stat = conn.createStatement();
             stat.executeUpdate(sql);
